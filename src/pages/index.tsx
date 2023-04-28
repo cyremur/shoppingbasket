@@ -74,7 +74,7 @@ const Home: NextPage = () => {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-8">
             {data &&
               data.productJson.map((product) => (
-                <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white">
+                <div key={product.id} className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white">
                   <h3 className="text-2xl font-bold">{product.name}</h3>
                   <div className="text-lg">{product.price}€</div>
                   {product.id}
@@ -91,8 +91,8 @@ const Home: NextPage = () => {
             Shopping Basket
           </h1>
           <ul>
-            {basket.map((product) => (
-              <li className="text-xl font-bold text-white">
+            {basket.map((product, index) => (
+              <li key={index} className="text-xl font-bold text-white">
                 {product.name}: {product.price}€
               </li>
             ))}
