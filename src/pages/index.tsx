@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { useState } from "react";
 
 import { api } from "~/utils/api";
@@ -11,10 +10,7 @@ type Product = {
   price: number;
 };
 
-const discountApple = true;
-const buy1get2Pear = false;
-
-const applyOptionalDiscount = (product: Product) => {
+const applyOptionalDiscount = (product: Product, discountApple: boolean) => {
   if (!discountApple) {
     return product.price;
   }
@@ -25,7 +21,10 @@ const applyOptionalDiscount = (product: Product) => {
   }
 };
 
-const calculateBuy1Get1Reduction = (products: Product[]) => {
+const calculateBuy1Get1Reduction = (
+  products: Product[],
+  buy1get2Pear: boolean
+) => {
   if (!buy1get2Pear) {
     return 0;
   }
@@ -35,19 +34,22 @@ const calculateBuy1Get1Reduction = (products: Product[]) => {
   if (firstProduct === undefined) {
     return 0;
   } else {
-    console.log(Math.floor(number / 2) * applyOptionalDiscount(firstProduct));
-    return Math.floor(number / 2) * applyOptionalDiscount(firstProduct);
+    return Math.floor(number / 2) * firstProduct.price;
   }
 };
 
-const getTotalPrice = (products: Product[]) => {
+const getTotalPrice = (
+  products: Product[],
+  discountApple: boolean,
+  buy1get2Pear: boolean
+) => {
   let sum = 0;
   for (const product of products) {
     //force integers
-    sum += Math.round(applyOptionalDiscount(product) * 100);
+    sum += Math.round(applyOptionalDiscount(product, discountApple) * 100);
   }
   console.log(sum);
-  sum -= calculateBuy1Get1Reduction(products) * 100;
+  sum -= calculateBuy1Get1Reduction(products, buy1get2Pear) * 100;
   console.log(sum);
   return sum / 100;
 };
@@ -95,9 +97,20 @@ const Home: NextPage = () => {
               </li>
             ))}
           </ul>
-          <h3 className="text-xl font-bold text-white">
-            Total: {getTotalPrice(basket)}€
-          </h3>
+          <div>
+            <h3 className="text-xl font-bold text-white">
+              Total: {getTotalPrice(basket, false, false)}€
+            </h3>
+            <h3 className="text-xl font-bold text-white">
+              Discount Apple: {getTotalPrice(basket, true, false)}€
+            </h3>
+            <h3 className="text-xl font-bold text-white">
+              Buy 1 Get 1 Pear: {getTotalPrice(basket, false, true)}€
+            </h3>
+            <h3 className="text-xl font-bold text-white">
+              Both Sales: {getTotalPrice(basket, true, true)}€
+            </h3>
+          </div>
           )
         </div>
       </main>
