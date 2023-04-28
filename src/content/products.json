@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Apfel",
+        "id": "A0001",
+        "price": 12.99
+    },
+    {
+        "name": "Birne",
+        "id": "A0002",
+        "price": 3.99
+    },
+    {
+        "name": "Tomate",
+        "id": "A0003",
+        "price": 7.99
+    }
+]
